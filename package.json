@@ -1,0 +1,46 @@
+{
+  "name": "recipe-tag-js",
+  "version": "1.0.0",
+  "description": "The recipe tag app",
+  "main": "./app.js",
+  "scripts": {
+    "start": "node ./app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Roger Taylor",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "chai": "^3.5.0",
+    "connect-redis": "^3.1.0",
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "fs": "0.0.1-security",
+    "lodash": "^4.17.2",
+    "mongoose": "^4.7.1",
+    "mongoose-validator": "^1.2.5",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "password-hash": "^1.2.2",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "reactify": "^1.1.1",
+    "winston": "^2.3.0"
+  },
+  "devDependencies": {
+    "browserify": "^13.1.1",
+    "event": "^1.0.0",
+    "flux": "^3.1.0",
+    "gulp": "^3.9.1",
+    "gulp-spawn-mocha": "^3.1.0",
+    "gulp-util": "^3.0.7",
+    "gulp-watchify": "^0.6.0",
+    "istanbul": "^0.4.5",
+    "keymirror": "^0.1.1",
+    "mocha": "^3.2.0",
+    "object-assign": "^4.1.0",
+    "superagent": "^3.1.0",
+    "supertest": "^2.0.1",
+    "watchify": "^3.7.0"
+  }
+}
