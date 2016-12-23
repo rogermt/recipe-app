@@ -11,14 +11,17 @@ var defaultConfig = {
     server: {
       port: 3000,
     },
-     logger: {
+
+    logger: {
       colorize: true,
     },
+
     mongo: 'mongodb://localhost/recipe-app-js-development',
-     session: {
-      secret: 'iamnotsurethisisnotarealsecret',
-        ttl: 3600 * 24,
-        prefix: 'development_',
+
+    session: {
+      secret: 'iamnotsureifthisisarealsecret',
+      ttl: 3600 * 24,
+      prefix: 'development_',
     },
   },
 
@@ -26,14 +29,17 @@ var defaultConfig = {
     server: {
       port: 4000,
     },
-     logger: {
+
+    logger: {
       colorize: true,
     },
+
     mongo: 'mongodb://localhost/recipe-app-js-test',
+
     session: {
-      secret: 'iamnotsurethisisnotarealsecret',
-        ttl: 3600 * 24,
-        prefix: 'test_',
+      secret: 'iamnotsureifthisisarealsecret',
+      ttl: 3600 * 24,
+      prefix: 'test_',
     },
   },
 
@@ -41,14 +47,17 @@ var defaultConfig = {
     server: {
       port: 5000,
     },
+
     logger: {
       colorize: true,
     },
+
     mongo: 'mongodb://localhost/recipe-app-js-production',
+
     session: {
-      secret: 'iamnotsurethisisnotarealsecret',
-        ttl: 3600,
-        prefix: 'production_',
+      secret: 'iamnotsureifthisisarealsecret',
+      ttl: 3600,
+      prefix: 'production_',
     },
   },
 };

@@ -10,28 +10,29 @@ var mockUser = {
   password: 'abc1234',
 };
 
-describe.only('E2E: Api / User / LogOut', function() {
+describe('E2E: Api / User / Logout', function() {
   // Remove all users and add our mock user
   beforeEach(function(done) {
     function loginMockUser(err) {
       should.not.exist(err);
       session
-      .post('/api/user/login')
-      .send(mockUser)
-      .expect(200)
-      .end(done);
+        .post('/api/user/login')
+        .send(mockUser)
+        .expect(200)
+        .end(done);
     }
+
     User.find({}).remove().exec(function(err) {
       should.not.exist(err);
+
       new User(mockUser).save(loginMockUser);
     });
-});
-  
-  it('GET /api/user/logout should return 200 on valid credentials', function(done) {
+  });
+
+  it('GET /api/user/logout should return 200 on logout', function(done) {
     session
       .get('/api/user/logout')
       .expect(200)
       .end(done);
   });
-
 });

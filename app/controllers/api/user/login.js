@@ -1,4 +1,5 @@
 var passport = require('passport');
+var _ = require('lodash');
 
 /**
  * Once hit, it means a successful login has been done.
@@ -7,7 +8,7 @@ var passport = require('passport');
  * @param {object} res - Express res
  */
 function HandlePostRequest(req, res) {
-  res.status(200).send();
+  res.json(_.omit(req.user.toObject(), 'password'));
 }
 
 module.exports = function(app) {

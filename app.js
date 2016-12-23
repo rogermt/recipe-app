@@ -3,10 +3,11 @@ var bodyParser = require('body-parser');
 var app = express();
 var config = require('./app/config/default');
 
-//Add extra middleware
+// Extra middleware
 app.use(bodyParser.json());
 
-app.use(express.static('public'))
+// Static file server by Express
+app.use(express.static('public'));
 
 // Initialize the Redis session storage
 require('./app/lib/session')(app, config);

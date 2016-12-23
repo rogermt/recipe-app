@@ -9,7 +9,7 @@ var mockUser = {
   password: 'abc1234',
 };
 
-describe.only('E2E: Api / User / LogIn', function() {
+describe('E2E: Api / User / Login', function() {
   // Remove all users and add our mock user
   beforeEach(function(done) {
     User.find({}).remove().exec(function(err) {
@@ -17,14 +17,22 @@ describe.only('E2E: Api / User / LogIn', function() {
 
       new User(mockUser).save(done);
     });
-});
-  
+  });
+
   it('POST /api/user/login should return 200 on valid credentials', function(done) {
     supertest(app)
       .post('/api/user/login')
       .send(mockUser)
       .expect(200)
-      .end(done);
+      .end(checkUser);
+
+    function checkUser(err, res) {
+      should.not.exist(err);
+      should.exist(res.body.email);
+      res.body.email.should.equal('test@example.com');
+      should.equal(res.body.password, undefined);
+      done();
+    }
   });
 
   it('POST /api/user/login should return 401 on invalid credentials', function(done) {
@@ -34,7 +42,7 @@ describe.only('E2E: Api / User / LogIn', function() {
       .expect(401)
       .end(done);
   });
-  
+
   it('POST /api/user/login should return 401 on invalid password', function(done) {
     supertest(app)
       .post('/api/user/login')

@@ -1,10 +1,10 @@
-var winston = require ('winston');
+var winston = require('winston');
 
-module.exports = function (config){
+module.exports = function (config) {
   var logger = new winston.Logger({
-    transports: [ new winston.transports.Console(config.logger)]
+    transports: [new winston.transports.Console(config.logger)]
   });
-  
-  logger.info('winston logger initialised...')
-  return logger
-}
+
+  logger.info('Winston logger initialized.');
+  return logger;
+};

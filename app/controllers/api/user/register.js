@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var logger;
+
 /**
  * Once hit, it will try and register the new user.
  *
@@ -29,7 +30,7 @@ function HandlePostRequest(req, res) {
   });
 }
 
-module.exports = function(app, config, appLogger) {
+module.exports = function(app, appLogger) {
   logger = appLogger;
 
   app.post('/api/user/register', HandlePostRequest);

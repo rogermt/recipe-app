@@ -1,46 +1,47 @@
 {
   "name": "recipe-tag-js",
-  "version": "1.0.0",
-  "description": "The recipe tag app",
+  "private": true,
+  "description": "The recipe tag app.",
+  "contributors": [
+    {
+      "name": "Joseph Callaars",
+      "email": "joseph@callaa.rs"
+    }
+  ],
   "main": "./app.js",
   "scripts": {
-    "start": "node ./app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./app.js"
   },
-  "author": "Roger Taylor",
-  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.15.2",
-    "chai": "^3.5.0",
-    "connect-redis": "^3.1.0",
-    "express": "^4.14.0",
-    "express-session": "^1.14.2",
-    "fs": "0.0.1-security",
-    "lodash": "^4.17.2",
-    "mongoose": "^4.7.1",
-    "mongoose-validator": "^1.2.5",
-    "passport": "^0.3.2",
+    "body-parser": "^1.14.1",
+    "chai": "^3.3.0",
+    "connect-redis": "^3.0.0",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
+    "lodash": "^3.10.1",
+    "mongoose": "^4.1.9",
+    "mongoose-validator": "^1.2.4",
+    "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "password-hash": "^1.2.2",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1",
-    "reactify": "^1.1.1",
-    "winston": "^2.3.0"
+    "winston": "^1.0.2"
   },
   "devDependencies": {
-    "browserify": "^13.1.1",
-    "event": "^1.0.0",
-    "flux": "^3.1.0",
-    "gulp": "^3.9.1",
-    "gulp-spawn-mocha": "^3.1.0",
-    "gulp-util": "^3.0.7",
-    "gulp-watchify": "^0.6.0",
-    "istanbul": "^0.4.5",
+    "browserify": "^9.0.8",
+    "events": "^1.1.0",
+    "flux": "^2.1.1",
+    "gulp": "^3.9.0",
+    "gulp-spawn-mocha": "^2.2.1",
+    "gulp-watchify": "^0.5.0",
     "keymirror": "^0.1.1",
-    "mocha": "^3.2.0",
-    "object-assign": "^4.1.0",
-    "superagent": "^3.1.0",
-    "supertest": "^2.0.1",
-    "watchify": "^3.7.0"
+    "material-ui": "^0.13.4",
+    "object-assign": "^4.0.1",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
+    "react-tap-event-plugin": "^0.2.1",
+    "reactify": "^1.1.1",
+    "superagent": "^1.4.0",
+    "supertest": "^1.1.0",
+    "watchify": "^3.5.0"
   }
 }
