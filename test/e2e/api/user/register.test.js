@@ -7,6 +7,7 @@ var User = mongoose.model('User');
 var mockUser = {
   email: 'test@example.com',
   password: 'abc1234',
+  token: 'abc123',
 };
 
 describe('E2E: Api / User / Register', function() {
@@ -37,6 +38,7 @@ describe('E2E: Api / User / Register', function() {
     function checkUser(err, res) {
       should.not.exist(err);
       should.exist(res.body.email);
+      should.exist(res.body.token);
       res.body.email.should.equal('another@example.com');
       should.equal(res.body.password, undefined);
       done();

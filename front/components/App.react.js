@@ -4,6 +4,7 @@ var UserActions = require('../actions/UserActions');
 
 var RegistrationForm = require('./Form/Registration.react');
 var LoginForm = require('./Form/Login.react');
+var RecipeList = require('./Recipe/List.react');
 
 module.exports = React.createClass({
   displayName: 'App',
@@ -35,12 +36,14 @@ module.exports = React.createClass({
 
     if (this.state.user) {
       body = (
-        <div>
+        <div className="row">
           <h1>You are logged in!</h1>
 
           <a href="javascript:void(0);" onClick={this.onClickLogout}>
             Logout {this.state.user.email}
           </a>
+
+          <RecipeList className="col-xs-12" />
         </div>
       );
     } else {

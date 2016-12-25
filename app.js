@@ -30,6 +30,7 @@ require('./app/controllers/index')(app, config);
 require('./app/controllers/api/user/login')(app);
 require('./app/controllers/api/user/logout')(app);
 require('./app/controllers/api/user/register')(app, logger);
+require('./app/controllers/api/recipe/index')(app);
 
 app.listen(config.server.port, function listenCallback() {
   logger.info('Started the Express server successfully on port %s.', config.server.port);

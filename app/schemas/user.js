@@ -2,6 +2,7 @@ var mongo = require('mongoose');
 var validator = require('mongoose-validator');
 var passwordHash = require('password-hash');
 var _ = require('lodash');
+var crypto = require('crypto');
 
 var emailValidator = [
   validator({
@@ -33,6 +34,12 @@ module.exports = function() {
       required: true,
       validate: passwordValidator,
     },
+
+    token: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   });
 
   User.methods.saltPassword = function() {
@@ -63,13 +70,20 @@ module.exports = function() {
    * @param {fn} done - Callback, return `err, user`
    */
   User.statics.simpleRegister = function(properties, done) {
-    new mongo.models.User(properties)
-    .save(function(err, user) {
-      if (err) return done(err);
+    crypto.randomBytes(48, afterRandomStringGeneration);
 
-      // Omit the password and conver to a plain object
-      done(null, _.omit(user.toObject(), 'password'));
-    });
+    function afterRandomStringGeneration(err, buffer) {
+      properties.token = buffer.toString('hex');
+
+      new mongo.models.User(properties)
+      .save(function(err, user) {
+        if (err) return done(err);
+
+        // Omit the password and conver to a plain object
+        done(null, _.omit(user.toObject(), 'password'));
+      });
+    }
+
   };
 
   return mongo.model('User', User);

@@ -12,6 +12,7 @@ describe('Unit: User Schema', function() {
     new User({
       email: 'test@example.com',
       password: 'somepassword',
+      token: 'abc123',
     }).save(function(err, user) {
       should.not.exist(err);
       should.exist(user);
@@ -25,6 +26,7 @@ describe('Unit: User Schema', function() {
       new User({
         email: 'test@example.com',
         password: 'somepassword',
+        token: 'abc123',
       }).save(done);
     }
 
@@ -44,6 +46,7 @@ describe('Unit: User Schema', function() {
     new User({
       email: 'invalid.email',
       password: 'somepassword',
+      token: 'abc123',
     }).save(function(err, user) {
       should.exist(err);
       should.not.exist(user);
@@ -55,7 +58,9 @@ describe('Unit: User Schema', function() {
     new User({
       email: 'some@example.com',
       password: '12345',
+      token: 'abc123',
     }).save(function(err, user) {
+      JSON.stringify(err).indexOf('Password should have a minimum length of 6').should.not.equal(-1);
       should.exist(err);
       should.not.exist(user);
       done();
@@ -66,6 +71,7 @@ describe('Unit: User Schema', function() {
     new User({
       email: 'some@example.com',
       password: '123456',
+      token: 'abc123',
     }).save(function(err, user) {
       should.not.exist(err);
       should.exist(user);
@@ -78,11 +84,13 @@ describe('Unit: User Schema', function() {
     User.simpleRegister({
       email: 'another@example.com',
       password: '123456',
+      token: 'abc123',
     }, function(err, user) {
       should.not.exist(err);
       should.exist(user);
       user.email.should.equal('another@example.com');
       should.exist(user._id);
+      should.exist(user.token);
       should.equal(user.password, undefined);
       done();
     });

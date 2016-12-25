@@ -22,6 +22,7 @@
     "mongoose": "^4.1.9",
     "mongoose-validator": "^1.2.4",
     "passport": "^0.3.0",
+    "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "password-hash": "^1.2.2",
     "winston": "^1.0.2"
@@ -35,6 +36,7 @@
     "gulp-watchify": "^0.5.0",
     "keymirror": "^0.1.1",
     "material-ui": "^0.13.4",
+    "moment": "^2.10.6",
     "object-assign": "^4.0.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",

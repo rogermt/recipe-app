@@ -1,5 +1,6 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var BearerStrategy = require('passport-http-bearer').Strategy;
 var session = require('express-session');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
@@ -29,6 +30,13 @@ module.exports = function(app, config, logger) {
       done(err, user);
     });
   });
+
+  // Define the bearer strategy for logging in through a token
+  passport.use('local-token', new BearerStrategy(
+    function authenticateUserByToken(token, done) {
+      User.findOne({token: token}, done);
+    }
+  ));
 
   // Define the local strategy for loggin in through an email and password
   passport.use('local-login', new LocalStrategy({
