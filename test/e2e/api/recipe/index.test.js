@@ -8,6 +8,9 @@ var mockUser = {
   email: 'test@example.com',
   password: 'abc1234',
   token: 'abc1234',
+  recipes: [
+    {name: 'Test', description: 'Description for Recipe Test 1'},
+  ]
 };
 
 describe('E2E: Api / Recipe / Index', function() {
@@ -26,6 +29,24 @@ describe('E2E: Api / Recipe / Index', function() {
       .set('Authorization', 'Bearer ' + mockUser.token)
       .expect(200)
       .end(done);
+  });
+
+  it('GET /api/recipe should return the user recipes', function(done) {
+    supertest(app)
+      .get('/api/recipe')
+      .set('Authorization', 'Bearer ' + mockUser.token)
+      .end(function(err, res){
+        should.not.exist(err);
+        res.body.length.should.equal(1);
+
+        should.exist(res.body[0].name);
+        should.exist(res.body[0].description);
+        should.exist(res.body[0].creation);
+
+        res.body[0].name.should.equal('Test');
+
+        done();
+      });
   });
 
 

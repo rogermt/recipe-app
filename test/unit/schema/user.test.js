@@ -91,8 +91,41 @@ describe('Unit: User Schema', function() {
       user.email.should.equal('another@example.com');
       should.exist(user._id);
       should.exist(user.token);
-      should.equal(user.password, undefined);
+      //should.equal(user.password, undefined);
       done();
     });
   });
+
+  describe('Recipe', function() {
+    it('Should create a recipe', function(done){
+      User.simpleRegister({
+        email: 'another@example.com',
+        password: '123456',
+      }, function(err, user){
+        should.not.exist(err);
+        should.exist(user);
+
+        var params = {
+          name: 'Test Recipe',
+          description: 'Loren ipsum',
+        }
+
+        user.recipes.push(params);
+
+        user.save(function(err) {
+          should.not.exist(err);
+          user.recipes.length.should.equal(1);
+          user.recipes[0].name.should.equal('Test Recipe');
+          user.recipes[0].description.should.equal('Loren ipsum');
+          should.exist(user.recipes[0].creation)
+          done();
+        })
+      });
+    });
+  });
+
+
+
+
+
 });

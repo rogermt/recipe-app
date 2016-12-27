@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var logger;
+var _ = require('lodash');
 
 /**
  * Once hit, it will try and register the new user.
@@ -25,7 +26,7 @@ function HandlePostRequest(req, res) {
         return res.status(500).send();
       }
 
-      res.status(200).json(user);
+      res.status(200).json(_.omit(user.toObject(), ['recipes', 'password']));
     });
   });
 }

@@ -40,7 +40,10 @@ describe('E2E: Api / User / Register', function() {
       should.exist(res.body.email);
       should.exist(res.body.token);
       res.body.email.should.equal('another@example.com');
+
       should.equal(res.body.password, undefined);
+      should.equal(res.body.recipes, undefined);
+
       done();
     }
   });

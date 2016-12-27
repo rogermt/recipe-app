@@ -8,7 +8,7 @@ var _ = require('lodash');
  * @param {object} res - Express res
  */
 function HandlePostRequest(req, res) {
-  res.json(_.omit(req.user.toObject(), 'password'));
+  res.json(_.omit(req.user.toObject(), ['recipes', 'password']));
 }
 
 module.exports = function(app) {

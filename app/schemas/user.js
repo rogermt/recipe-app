@@ -1,8 +1,8 @@
 var mongo = require('mongoose');
 var validator = require('mongoose-validator');
 var passwordHash = require('password-hash');
-var _ = require('lodash');
 var crypto = require('crypto');
+var RecipeSchema = require('./user/recipe');
 
 var emailValidator = [
   validator({
@@ -40,6 +40,8 @@ module.exports = function() {
       required: true,
       unique: true,
     },
+
+    recipes: [RecipeSchema],
   });
 
   User.methods.saltPassword = function() {
@@ -80,7 +82,7 @@ module.exports = function() {
         if (err) return done(err);
 
         // Omit the password and conver to a plain object
-        done(null, _.omit(user.toObject(), 'password'));
+        done(null, user);
       });
     }
 

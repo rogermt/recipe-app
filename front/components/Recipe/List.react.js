@@ -39,10 +39,10 @@ module.exports = React.createClass({
   getRecipeElements: function() {
     return this.state.recipes.map(function(recipe, index) {
       var creationDate = 'Recipe created on ' +
-        moment(recipe.created, 'x').format('DD-MM-YYYY');
+        moment(recipe.creation).format('DD-MM-YYYY');
 
       return (
-        <div key={index} className="col-xs-12 col-md-3">
+        <div key={index} style={{marginBottom: 10}} className="col-xs-12 col-md-3">
           <Card>
             <CardTitle title={recipe.name} subtitle={creationDate} />
             <CardText>{recipe.description}</CardText>

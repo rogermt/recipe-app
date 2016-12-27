@@ -6,10 +6,9 @@ var passport = require('passport');
  * @param {object} res - Express res
  */
 function HandleGetRequest(req, res) {
-  res.json([
-    {name: 'Recipe 1', description: 'Lorem Ipsum 1', created: Date.now() },
-    {name: 'Recipe 2', description: 'Lorem Ipsum 2', created: Date.now() },
-  ]);
+
+    res.json(req.user.recipes);
+
 }
 
 module.exports = function(app) {

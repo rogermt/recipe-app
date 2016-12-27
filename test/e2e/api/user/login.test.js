@@ -32,7 +32,10 @@ describe('E2E: Api / User / Login', function() {
       should.exist(res.body.email);
       should.exist(res.body.token);
       res.body.email.should.equal('test@example.com');
+
       should.equal(res.body.password, undefined);
+      should.equal(res.body.recipes, undefined);
+
       done();
     }
   });
