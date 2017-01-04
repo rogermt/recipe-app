@@ -6,9 +6,19 @@ var Schema = mongoose.Schema({
     index: true,
     type: String,
   },
+
   description: {
     type: String,
   },
+
+  ingredients:[{
+    type: String,
+  }],
+
+  tags:[{
+    type: String,
+  }],
+
   creation: {
     type: Date,
     default: new Date(),

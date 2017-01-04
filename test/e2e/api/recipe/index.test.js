@@ -49,5 +49,22 @@ describe('E2E: Api / Recipe / Index', function() {
       });
   });
 
+  it('POST /api/recipe should create a new recipe', function(done) {
+    supertest(app)
+      .post('/api/recipe')
+      .set('Authorization', 'Bearer ' + mockUser.token)
+      .send({name: 'POST name'})
+      .expect(302)
+      .end(function(err) {
+        should.not.exist(err);
+
+        User.findOne({email: 'test@example.com'}, function(err, user) {
+          should.not.exist(err);
+          user.recipes.length.should.equal(2);
+          user.recipes[1].name.should.equal('POST name');
+          done();
+        });
+      });
+  });
 
 });

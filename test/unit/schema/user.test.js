@@ -2,6 +2,7 @@ var app = require('../../../app');
 var should = require('chai').should();
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var UserUtils = require('../../utils/user');
 
 describe('Unit: User Schema', function() {
   beforeEach(function(done) {
@@ -97,32 +98,47 @@ describe('Unit: User Schema', function() {
   });
 
   describe('Recipe', function() {
-    it('Should create a recipe', function(done){
-      User.simpleRegister({
-        email: 'another@example.com',
-        password: '123456',
-      }, function(err, user){
-        should.not.exist(err);
-        should.exist(user);
 
-        var params = {
-          name: 'Test Recipe',
-          description: 'Loren ipsum',
-        }
+    it('should create a recipe', function(done){
 
-        user.recipes.push(params);
+      UserUtils.createUserAndRecipe(function(user) {
+        user.recipes.length.should.equal(1);
+        user.recipes[0].name.should.equal('Test Recipe');
+        user.recipes[0].description.should.equal('Loren ipsum');
 
-        user.save(function(err) {
+        user.recipes[0].ingredients.length.should.equal(2);
+        user.recipes[0].ingredients.length.should.equal(2);
+
+        should.exist(user.recipes[0].creation)
+
+        done();
+        });
+      });
+
+    it('should edit a recipe', function(done){
+      UserUtils.createUserAndRecipe(function(user) {
+        user.recipes[0].name = 'Another name';
+        user.save(function(err, user){
           should.not.exist(err);
-          user.recipes.length.should.equal(1);
-          user.recipes[0].name.should.equal('Test Recipe');
-          user.recipes[0].description.should.equal('Loren ipsum');
-          should.exist(user.recipes[0].creation)
+          user.recipes[0].name.should.equal('Another name');
           done();
-        })
+        });
       });
     });
-  });
+
+    it('should delete a recipe', function(done){
+      UserUtils.createUserAndRecipe(function(user) {
+        user.recipes[0].remove();
+        user.save(function(err, user){
+          should.not.exist(err);
+          user.recipes.length.should.equal(0);
+          done();
+        });
+      });
+    });
+
+    });
+
 
 
 
