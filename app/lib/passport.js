@@ -1,61 +1,65 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var BearerStrategy = require('passport-http-bearer').Strategy;
-var session = require('express-session');
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+/**
+ * External dependencies
+ */
+import passport from 'passport';
+import passportLocal from 'passport-local';
+import passportHttpBearer from 'passport-http-bearer';
+import session from 'express-session';
+import mongoose from 'mongoose';
 
-module.exports = function(app, config, logger) {
-  app.use(session({secret: config.session.secret}));
-  app.use(passport.initialize());
-  app.use(passport.session());
+const LocalStrategy = passportLocal.Strategy;
+const BearerStrategy = passportHttpBearer.Strategy;
+const User = mongoose.model( 'User' );
 
-  passport.serializeUser(function(user, done) {
-    logger.info('Serializing user %s.', user.id);
-    done(null, user.id);
-  });
+export default ( app, config, logger ) => {
+  app.use( session( { secret: config.session.secret } ) );
+  app.use( passport.initialize() );
+  app.use( passport.session() );
 
-  passport.deserializeUser(function(id, done) {
-    logger.info('Finding user %s.', id);
+  passport.serializeUser( ( user, done ) => {
+    logger.info( 'Serializing user %s.', user.id );
+    done( null, user.id );
+  } );
 
-    User.findById(id, function(err, user) {
-      if (err) {
-        logger.error('Error while finding user: %s', err.message || err);
-      } else if (!user) {
-        logger.error('Could not find user %s.', id);
+  passport.deserializeUser( ( id, done ) => {
+    logger.info( 'Finding user %s.', id );
+
+    User.findById( id, ( err, user ) => {
+      if ( err ) {
+        logger.error( 'Error while finding user: %s', err.message || err );
+      } else if ( !user ) {
+        logger.error( 'Could not find user %s.', id );
       } else {
-        logger.info('User found with id %s.', id);
+        logger.info( 'User found with id %s.', id );
       }
 
-      done(err, user);
-    });
-  });
+      done( err, user );
+    } );
+  } );
 
   // Define the bearer strategy for logging in through a token
-  passport.use('local-token', new BearerStrategy(
-    function authenticateUserByToken(token, done) {
-      User.findOne({token: token}, done);
-    }
-  ));
+  passport.use( 'local-token', new BearerStrategy( ( token, done ) => {
+      User.findOne( { token: token }, done );
+  } ) );
 
-  // Define the local strategy for loggin in through an email and password
-  passport.use('local-login', new LocalStrategy({
+  // Define the local strategy for logging in through an email and password
+  passport.use( 'local-login', new LocalStrategy( {
     usernameField: 'email',
     passwordField: 'password',
-  }, function authenticateUser(email, password, done) {
+  }, ( email, password, done ) => {
     // Find the user first before checking the password
-    User.findOne({email: email}, function(err, user) {
-      if (err) {
-        logger.error('Error while authenticating user: %s', err.message || err);
+    User.findOne( { email: email }, ( err, user ) => {
+      if ( err ) {
+        logger.error( 'Error while authenticating user: %s', err.message || err );
         return done();
       }
 
-      if (!user || !user.validPassword(password)) {
-        logger.error('Invalid credentials supplied for user: %s', email);
+      if ( !user || !user.validPassword( password ) ) {
+        logger.error( 'Invalid credentials supplied for user: %s', email );
         return done();
       }
 
-      done(null, user);
-    });
-  }));
+      done( null, user );
+    } );
+  } ) );
 };

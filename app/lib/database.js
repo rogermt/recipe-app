@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-module.exports = function(logger, config) {
+export default (logger, config) => {
   mongoose.connect(config.mongo);
   logger.info('Connection opened with %s.', config.mongo);
 };

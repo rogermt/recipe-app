@@ -1,39 +1,54 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
-var config = require('./app/config/default');
+/**
+ * External dependencies
+ */
+import express from 'express';
+import bodyParser from 'body-parser';
+
+/**
+ * Internal dependencies
+ */
+import config from './app/config/default';
+import session from './app/lib/session';
+import logger from './app/lib/logger';
+import db from './app/lib/database';
+import { SchemaUser } from './app/schemas/user';
+import passport from './app/lib/passport';
+
+// Controllers
+import controllerIndex from './app/controllers/index';
+import controllerApiUserLogin from './app/controllers/api/user/login';
+import controllerApiUserLogout from './app/controllers/api/user/logout';
+import controllerApiUserRegister from './app/controllers/api/user/register';
+import controllerApiRecipeIndex from './app/controllers/api/recipe/index';
+
+const app = express();
 
 // Extra middleware
-app.use(bodyParser.json());
+app.use( bodyParser.json() );
 
 // Static file server by Express
-app.use(express.static('public'));
+app.use( express.static( 'public' ) );
 
 // Initialize the Redis session storage
-require('./app/lib/session')(app, config);
+session( app, config );
 
 // Initialize the logger
-var logger = require('./app/lib/logger')(config);
+const loggerInstance = logger( config );
 
 // Initialize the database connection
-var db = require('./app/lib/database')(logger, config);
-
-// Initialize all the schemas
-require('./app/schemas/user')();
+db( loggerInstance, config );
 
 // Initialize the passport authentication after the models
 // have been initialized
-require('./app/lib/passport')(app, config, logger);
+passport( app, config, loggerInstance );
 
 // All the controllers used, are defined below
-require('./app/controllers/index')(app, config);
-require('./app/controllers/api/user/login')(app);
-require('./app/controllers/api/user/logout')(app);
-require('./app/controllers/api/user/register')(app, logger);
-require('./app/controllers/api/recipe/index')(app);
+controllerIndex( app, config );
+controllerApiUserLogin( app );
+controllerApiUserLogout( app );
+controllerApiUserRegister( app, loggerInstance );
+controllerApiRecipeIndex( app );
 
-app.listen(config.server.port, function listenCallback() {
-  logger.info('Started the Express server successfully on port %s.', config.server.port);
-});
+app.listen( config.server.port, () => loggerInstance.info( 'Started the Express server successfully on port %s.', config.server.port ) );
 
-module.exports = app;
+export default app;

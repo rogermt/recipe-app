@@ -1,6 +1,8 @@
-var session = require('express-session');
-var RedisStore = require('connect-redis')(session);
+import session from 'express-session';
+import connectRedis from 'connect-redis';
 
-module.exports = function(app, config) {
+connectRedis(session);
+
+export default (app, config) => {
   app.use(session(config.session));
 };

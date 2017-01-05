@@ -1,7 +1,7 @@
-var winston = require('winston');
+import winston from 'winston';
 
-module.exports = function (config) {
-  var logger = new winston.Logger({
+export default (config) => {
+  const logger = new winston.Logger({
     transports: [new winston.transports.Console(config.logger)]
   });
 

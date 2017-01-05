@@ -1,37 +1,29 @@
-var _ = require('lodash');
+/**
+ * External dependencies
+ */
+import each from 'lodash/each';
+import findIndex from 'lodash/findIndex'
 
-function CreateRecipe(user, record, done) {
-  user.recipes.push(record);
-  user.save(done);
-}
-
-function EditRecipe(user, id, changes, done) {
-  var recipeIndex = _.findIndex(user.recipes, function(recipe) {
-    return recipe.id === (id.toString ? id.toString() : id);
-  });
-
-  if (recipeIndex === -1) return done(Error('Recipe does not exist.'));
-
-  _.each(changes, function(value, key) {
-    user.recipes[recipeIndex][key] = value;
-  });
-
-  user.save(done);
-}
-
-function DeleteRecipe(user, id, done) {
-  var recipeIndex = _.findIndex(user.recipes, function(recipe) {
-    return recipe.id === (id.toString ? id.toString() : id);
-  });
-
-  if (recipeIndex === -1) return done(Error('Recipe does not exist.'));
-
-  user.recipes[recipeIndex].remove();
-  user.save(done);
-}
-
-module.exports = {
-  CreateRecipe: CreateRecipe,
-  EditRecipe: EditRecipe,
-  DeleteRecipe: DeleteRecipe,
+export const CreateRecipe = ( user, record, done ) => {
+  user.recipes.push( record );
+  user.save( done );
 };
+
+export const EditRecipe = ( user, id, changes, done ) => {
+  const recipeIndex = findIndex( user.recipes, ( recipe ) => recipe.id === ( id.toString ? id.toString() : id ) );
+
+  if (recipeIndex === -1) return done( Error( 'Recipe does not exist.' ) );
+
+  each( changes, ( value, key ) => user.recipes[ recipeIndex ][ key ] = value );
+
+  user.save( done );
+};
+
+export const DeleteRecipe = ( user, id, done ) => {
+  const recipeIndex = findIndex( user.recipes, ( recipe ) => recipe.id === ( id.toString ? id.toString() : id ) );
+
+  if ( recipeIndex === -1 ) return done( Error( 'Recipe does not exist.' ) );
+
+  user.recipes[ recipeIndex ].remove();
+  user.save( done );
+}

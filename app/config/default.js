@@ -1,12 +1,12 @@
-var fs = require('fs');
-var path = require('path');
-var _ = require('lodash');
+import fs from 'fs';
+import path from 'path';
+import defaultsDeep from 'lodash/defaultsDeep';
 
 // Determine the main app path
-var rootPath = path.normalize(__dirname + '/../..');
+const rootPath = path.normalize( __dirname + '/../..' );
 
 // Default config if no override exists
-var defaultConfig = {
+const defaultConfig = {
   development: {
     server: {
       port: 3000,
@@ -62,24 +62,24 @@ var defaultConfig = {
   },
 };
 
-var config = defaultConfig;
+let config = defaultConfig;
 
 try {
-  var stats = fs.lstatSync(path.join(rootPath, 'app/config/local.js'));
+  const stats = fs.lstatSync( path.join( rootPath, 'app/config/local.js' ) );
 
-  if (stats.isFile()) {
-    var localConfig = require(path.join(rootPath, 'app/config/local'));
+  if ( stats.isFile() ) {
+    const localConfig = require( path.join( rootPath, 'app/config/local' ) );
 
     // Merging the default with the local configuration
-    _.defaultsDeep(localConfig, defaultConfig);
+    defaultsDeep( localConfig, defaultConfig );
 
     config = localConfig;
 
-    console.log('Local config found, and loaded.');
+    console.log( 'Local config found, and loaded.' );
   }
-} catch (err) {
+} catch ( err ) {
   // Not do anything, as the local config just doesn't exist
-  console.log('No local config found, using defaults.');
+  console.log( 'No local config found, using defaults.' );
 }
 
-module.exports = config[process.env.NODE_ENV || 'development'];
+export default config[process.env.NODE_ENV || 'development'];
