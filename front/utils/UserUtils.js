@@ -1,23 +1,23 @@
-var request = require('superagent');
+import request from 'superagent';
 
-function RegisterUser(email, password) {
-  return new Promise(function(resolve, reject) {
+const RegisterUser = (email, password) => {
+  return new Promise( (resolve, reject) => {
     request
       .post('/api/user/register')
       .send({email: email, password: password})
-      .end(function(err, res) {
+      .end( (err, res) => {
         if (err) return reject(err);
         resolve(res.body);
       });
   });
 }
 
-function LoginUser(email, password) {
-  return new Promise(function(resolve, reject) {
+const LoginUser = (email, password) => {
+  return new Promise( (resolve, reject) => {
     request
       .post('/api/user/login')
       .send({email: email, password: password})
-      .end(function(err, res) {
+      .end( (err, res) => {
         if (err) return reject(err);
         resolve(res.body);
       });

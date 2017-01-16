@@ -1,39 +1,31 @@
-var React = require('react');
-var UserStore = require('../../stores/UserStore');
-var UserActions = require('../../actions/UserActions');
 
-var Card = require('material-ui/lib/card/card');
-var CardHeader = require('material-ui/lib/card/card-header');
-var CardText = require('material-ui/lib/card/card-text');
-var CardTitle = require('material-ui/lib/card/card-title');
-var TextField = require('material-ui/lib/text-field');
-var RaisedButton = require('material-ui/lib/raised-button');
+/**
+ * External dependencies
+ */
+import React, { Component } from 'react';
+import Card from 'material-ui/lib/card/card';
+import CardText from 'material-ui/lib/card/card-text';
+import CardTitle from 'material-ui/lib/card/card-title';
+import TextField from 'material-ui/lib/text-field';
+import RaisedButton from 'material-ui/lib/raised-button';
 
-module.exports = React.createClass({
-  displayName: 'FormRegistration',
+/**
+ * Internal dependencies
+ */
+import UserStore from '../../stores/UserStore';
+import UserActions from '../../actions/UserActions';
 
-  componentDidMount: function() {
-    UserStore.addChangeListener(this.onStoreChange);
-  },
-
-  componentWillUnmount: function() {
-    UserStore.removeChangeListener(this.onStoreChange);
-  },
-
-  onStoreChange: function() {
-    console.log('Store has changed!', UserStore.get());
-  },
-
-  onClickRegister: function() {
+export default class FormRegistration extends Component {
+  onClickRegister() {
     UserActions.Register(
         this.refs.inputEmail.getValue(),
         this.refs.inputPassword.getValue()
     );
-  },
+  }
 
-  render: function() {
+  render() {
     return (
-      <div className={this.props.className}>
+      <div className={ this.props.className }>
         <Card>
           <CardTitle
             title="Registration Form"
@@ -43,23 +35,23 @@ module.exports = React.createClass({
             <TextField
               ref="inputEmail"
               hintText="Use your best email"
-              fullWidth={true} />
+              fullWidth={ true } />
 
             <TextField
               ref="inputPassword"
               hintText="Your cleverest password"
-              fullWidth={true}
+              fullWidth={ true }
               type="password" />
 
             <div>
               <RaisedButton
                 label="Register User"
-                primary={true}
-                onClick={this.onClickRegister} />
+                primary={ true }
+                onClick={ () => this.onClickRegister() } />
             </div>
           </CardText>
         </Card>
       </div>
     );
-  },
-});
+  }
+};

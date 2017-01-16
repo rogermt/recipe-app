@@ -1,6 +1,6 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var RecipeConstants = require('../constants/RecipeConstants');
-var UserStore = require('../stores/userStore');
+var UserStore = require('../stores/UserStore');
 var ActionTypes = RecipeConstants.ActionTypes;
 
 module.exports = {

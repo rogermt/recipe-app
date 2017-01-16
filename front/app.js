@@ -1,5 +1,12 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var App = require('./components/App.react');
+/**
+* External dependencies
+**/
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+/**
+* Internal dependencies
+**/
+import App from './components/App.react';
 
 ReactDOM.render(<App />, document.getElementById('container'));

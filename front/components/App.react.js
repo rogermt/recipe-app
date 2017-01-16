@@ -1,46 +1,51 @@
-var React = require('react');
-var UserStore = require('../stores/UserStore');
-var UserActions = require('../actions/UserActions');
+/**
+ * External dependencies
+ */
+import React, { Component } from 'react';
+//import { createStore } from 'redux';
 
-var RegistrationForm = require('./Form/Registration.react');
-var LoginForm = require('./Form/Login.react');
-var RecipeList = require('./Recipe/List.react');
+/**
+ * Internal dependencies
+ */
+import UserStore from '../stores/UserStore';
+import UserActions from '../actions/UserActions';
+import RegistrationForm from './Form/Registration.react';
+import LoginForm from './Form/Login.react';
+import RecipeList from './Recipe/List.react';
 
-module.exports = React.createClass({
-  displayName: 'App',
+export default class App extends Component {
+  componentDidMount() {
+    UserStore.addChangeListener( () => this.onStoreChange() );
+  }
 
-  componentDidMount: function() {
-    UserStore.addChangeListener(this.onStoreChange);
-  },
+  componentWillUnmount() {
+    UserStore.removeChangeListener( () => this.onStoreChange() );
+  }
 
-  componentWillUnmount: function() {
-    UserStore.removeChangeListener(this.onStoreChange);
-  },
+  onStoreChange() {
+    this.setState( { user: UserStore.get() } );
+  }
 
-  onStoreChange: function() {
-    this.setState({user: UserStore.get()});
-  },
-
-  getInitialState: function() {
-    return {
+  componentWillMount() {
+    this.state = {
       user: UserStore.get(),
     };
-  },
+  }
 
-  onClickLogout: function() {
+  onClickLogout() {
     UserActions.Logout();
-  },
+  }
 
-  render: function() {
-    var body;
+  render() {
+    let body;
 
-    if (this.state.user) {
+    if ( this.state.user ) {
       body = (
         <div className="row">
           <h1>You are logged in!</h1>
 
-          <a href="javascript:void(0);" onClick={this.onClickLogout}>
-            Logout {this.state.user.email}
+          <a href="javascript:void(0);" onClick={ this.onClickLogout }>
+            Logout { this.state.user.email }
           </a>
 
           <RecipeList className="col-xs-12" />
@@ -56,5 +61,5 @@ module.exports = React.createClass({
     }
 
     return body;
-  },
-});
+  }
+};

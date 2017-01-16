@@ -1,54 +1,57 @@
-var React = require('react');
-var moment = require('moment');
+/**
+ * External dependencies
+ */
+import React, { Component } from 'react';
+import moment from 'moment';
+import Card from 'material-ui/lib/card/card';
+import CardTitle from 'material-ui/lib/card/card-title';
+import CardText from 'material-ui/lib/card/card-text';
 
-var RecipeStore = require('../../stores/RecipeStore');
-var RecipeActions = require('../../actions/RecipeActions');
+/**
+ * Internal dependencies
+ */
+import RecipeStore from '../../stores/RecipeStore';
+import RecipeActions from '../../actions/RecipeActions';
 
-var Card = require('material-ui/lib/card/card');
-var CardTitle = require('material-ui/lib/card/card-title');
-var CardText = require('material-ui/lib/card/card-text');
+export default class RecipeList extends Component {
+  componentDidMount() {
+    RecipeStore.addChangeListener( this.onStoreChange );
+  }
 
-module.exports = React.createClass({
-  displayName: 'RecipeList',
+  componentWillUnmount() {
+    RecipeStore.removeChangeListener( this.onStoreChange );
+  }
 
-  componentDidMount: function() {
-    RecipeStore.addChangeListener(this.onStoreChange);
-  },
+  onStoreChange() {
+    this.setState( { recipes: RecipeStore.get() } );
+  }
 
-  componentWillUnmount: function() {
-    RecipeStore.removeChangeListener(this.onStoreChange);
-  },
-
-  onStoreChange: function() {
-    this.setState({recipes: RecipeStore.get()});
-  },
-
-  getInitialState: function() {
+  componentWillMount() {
     RecipeActions.GetAll();
-    return {recipes: RecipeStore.get()};
-  },
+    this.state = { recipes: RecipeStore.get() };
+  }
 
-  render: function() {
+  render() {
     return (
-      <div className={this.props.className + ' row'}>
-        {this.getRecipeElements()}
+      <div className={ this.props.className + ' row' }>
+        { this.getRecipeElements() }
       </div>
     );
-  },
+  }
 
-  getRecipeElements: function() {
-    return this.state.recipes.map(function(recipe, index) {
-      var creationDate = 'Recipe created on ' +
-        moment(recipe.creation).format('DD-MM-YYYY');
+  getRecipeElements() {
+    return this.state.recipes.map( ( recipe, index ) => {
+      const creationDate = 'Recipe created on ' +
+        moment( recipe.creation ).format( 'DD-MM-YYYY' );
 
       return (
-        <div key={index} style={{marginBottom: 10}} className="col-xs-12 col-md-3">
+        <div key={ index } style={ { marginBottom: 10 } } className="col-xs-12 col-md-3">
           <Card>
-            <CardTitle title={recipe.name} subtitle={creationDate} />
-            <CardText>{recipe.description}</CardText>
+            <CardTitle title={ recipe.name } subtitle={ creationDate } />
+            <CardText>{ recipe.description }</CardText>
           </Card>
         </div>
       );
-    });
-  },
-});
+    } );
+  }
+};
